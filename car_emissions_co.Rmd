@@ -13,23 +13,21 @@ library(ggplot2)
 ```{r}
 # read in the dataset and remove NAs
 cars <- read.csv("~/Documents/GitHub/EmissionsGroupA/carData.csv")
-cars <- na.omit(cars)
-emissions <- cars %>% 
-  select(- X)
 ```
 
 ```{r} 
 # get the average co for each day
-day_avg <- emissions %>%
+day_avg <- cars %>%
   filter(day %in% 1:13) %>%   # Select days 1 to 13
   group_by(day) %>%           # Group by day
   summarise(avg_co = mean(co, na.rm = TRUE))  # Compute the mean
-emissions <- left_join(emissions, day_avg, by = "day")
+cars <- left_join(cars, day_avg, by = "day")
 ```
 
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+# create line graph
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
