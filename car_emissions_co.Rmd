@@ -27,7 +27,11 @@ cars <- left_join(cars, day_avg, by = "day")
 
 ```{r}
 # create line graph
+yugo_data <- cars %>%
+  filter(car == "Yugo")
 
+ggplot(yugo_data, x = dev, y = avg_co) +
+  geom_line()
 ```
 
 
