@@ -30,8 +30,11 @@ cars <- left_join(cars, day_avg, by = "day")
 yugo_data <- cars %>%
   filter(car == "Yugo")
 
-ggplot(yugo_data, x = dev, y = avg_co) +
-  geom_line()
+ggplot(yugo_data, aes(x = day, y = avg_co, colour = dev, group = dev)) +
+  geom_line(size = 1) +  # Line color and thickness
+  geom_point(size = 2) +  # Add points for clarity
+  labs(title = "Yugo Co2 Emissions", x = "Day", y = "Co2 Emissions") +
+  theme_minimal()
 ```
 
 
