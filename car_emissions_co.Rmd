@@ -35,7 +35,7 @@ Yugo_Co <- ggplot(Yugo_emissions, aes(x = day, y = avg_emission, colour = dev, g
   labs(
     title = "Yugo Carbon Monoxide Emissions Over Time",
     x = "Day of Observation",
-    y = "Avg CO Emissions (ppm)",
+    y = "Avg CO Emissions (pct of volume)",
     colour = "Device Installed?"
   ) +
   theme_light(base_size = 14)  
@@ -55,7 +55,7 @@ Bentley_Co <- ggplot(Bentley_emissions, aes(x = day, y = avg_emission, colour = 
   labs(
     title = "Bentley Carbon Monoxide Emissions Over Time",
     x = "Day of Observation",
-    y = "Avg CO Emissions (ppm)",
+    y = "Avg CO Emissions (pct of volume)",
     colour = "Device Installed?"
   ) +
   theme_light(base_size = 14)
@@ -71,11 +71,11 @@ Yugo_Data <- carData |>
 Yugo_Co2 <- ggplot(Yugo_Data, aes(x = day, y = Avg_emission, colour = dev, group = dev)) +
   geom_line(size = 1.5) +  
   geom_point(size = 3) +
-  scale_color_manual(values = c("Yes" = "green", "No" = "red")) +
+  scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) +
   labs(
     title = "Average Yugo Co2 Emissions Over Time",
     x = "Day of Observation",
-    y = "Avg Co2 Emissions (percent of volume)",
+    y = "Avg Co2 Emissions (pct of volume)",
     colour = "Device Installed?") +
   theme_light(base_size = 14)
 
@@ -89,7 +89,7 @@ Bentley_Data <- carData |>
 Bentley_Co2 <- ggplot(Bentley_Data, aes(x = day, y = Avg_emission, colour = dev, group = dev)) +
   geom_line(size = 1.5) + 
   geom_point(size = 3) +
-  scale_color_manual(values = c("Yes" = "green", "No" = "red")) +
+  scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) +
   labs(
     title = "Average Bentley Co2 Emissions Over Time",
     x = "Day of Observation",
