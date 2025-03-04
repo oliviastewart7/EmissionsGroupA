@@ -13,11 +13,14 @@ library(gridExtra)
 
 ```{r}
 #| label: Reading in data
+#| warning: False
 
 carData <- read_csv("carData.csv")
 ```
 
-```{r}
+```{r, fig.cap = Caption}
+#| message: false
+
 Yugo_emissions <- carData |>
   select(day, co, car, dev) |>
   mutate(dev = ifelse(dev > 0, "Yes", "No")) |>
@@ -95,6 +98,8 @@ Bentley_Co2 <- ggplot(Bentley_Data, aes(x = day, y = Avg_emission, colour = dev,
   theme_light(base_size = 14)
 
 grid.arrange(Yugo_Co, Bentley_Co, Yugo_Co2, Bentley_Co2, ncol = 2, nrow = 2)
+
+Caption <- ""
 ```
 
 
