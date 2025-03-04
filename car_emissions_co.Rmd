@@ -12,29 +12,51 @@ library(ggplot2)
 
 ```{r}
 # read in the dataset and remove NAs
-cars <- read.csv("~/Documents/GitHub/EmissionsGroupA/carData.csv")
+carData <- read.csv("~/Documents/GitHub/EmissionsGroupA/carData.csv")
 ```
-
-```{r} 
-# get the average co for each day
-day_avg <- cars %>%
-  filter(day %in% 1:13) %>%   # Select days 1 to 13
-  group_by(day) %>%           # Group by day
-  summarise(avg_co = mean(co, na.rm = TRUE))  # Compute the mean
-cars <- left_join(cars, day_avg, by = "day")
-```
-
 
 ```{r}
-# create line graph
-yugo_data <- cars %>%
-  filter(car == "Yugo")
+Yugo_emissions <- carData |>
+  select(day, co, car, dev) |>
+  mutate(dev = ifelse(dev > 0, "Yes", "No")) |>
+  filter(car == "Yugo") |>
+  group_by(day, dev) |>
+  summarise(avg_emission = mean(co, na.rm = TRUE))
 
-ggplot(yugo_data, aes(x = day, y = avg_co, colour = dev, group = dev)) +
-  geom_line(size = 1) +  # Line color and thickness
-  geom_point(size = 2) +  # Add points for clarity
-  labs(title = "Yugo Co2 Emissions", x = "Day", y = "Co2 Emissions") +
-  theme_minimal()
+Yugo_Co <- ggplot(Yugo_emissions, aes(x = day, y = avg_emission, colour = dev, group = dev)) +
+  geom_line(size = 1.5) + 
+  geom_point(size = 3) + 
+  scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) + 
+  labs(
+    title = "Yugo Carbon Monoxide Emissions Over Time",
+    x = "Day of Observation",
+    y = "Avg CO Emissions (ppm)",
+    colour = "Device Installed?"
+  ) +
+  theme_light(base_size = 14)  
+
+
+Bentley_emissions <- carData |>
+  select(day, co, car, dev) |>
+  mutate(dev = ifelse(dev > 0, "Yes", "No")) |>
+  filter(car == "Bentley") |>
+  group_by(day, dev) |>
+  summarise(avg_emission = mean(co, na.rm = TRUE))
+
+Bentley_Co <- ggplot(Bentley_emissions, aes(x = day, y = avg_emission, colour = dev, group = dev)) +
+  geom_line(size = 1.5) +
+  geom_point(size = 3) +  
+  scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) + 
+  labs(
+    title = "Bentley Carbon Monoxide Emissions Over Time",
+    x = "Day of Observation",
+    y = "Avg CO Emissions (ppm)",
+    colour = "Device Installed?"
+  ) +
+  theme_light(base_size = 14)
+
+Yugo_Co
+Bentley_Co
 ```
 
 
