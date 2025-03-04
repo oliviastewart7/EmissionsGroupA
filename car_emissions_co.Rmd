@@ -1,6 +1,6 @@
 ---
 title: "car_emissions"
-output: pdf_document
+format: pdf
 date: "2025-03-03"
 ---
 
@@ -8,6 +8,7 @@ date: "2025-03-03"
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
+library(gridExtra)
 ```
 
 ```{r}
@@ -55,8 +56,44 @@ Bentley_Co <- ggplot(Bentley_emissions, aes(x = day, y = avg_emission, colour = 
   ) +
   theme_light(base_size = 14)
 
-Yugo_Co
-Bentley_Co
+#graphs for Co2 Emissions
+Yugo_Data <- carData |>
+  select(day, co2, car, dev) |>
+  mutate(dev = ifelse(dev > 0, "Yes", "No")) |>
+  filter(car == "Yugo") |>
+  group_by(day, dev) |>
+  summarise(Avg_emission = mean(co2, na.rm = TRUE))
+
+Yugo_Co2 <- ggplot(Yugo_Data, aes(x = day, y = Avg_emission, colour = dev, group = dev)) +
+  geom_line(size = 1.5) +  
+  geom_point(size = 3) +
+  scale_color_manual(values = c("Yes" = "green", "No" = "red")) +
+  labs(
+    title = "Average Yugo Co2 Emissions Over Time",
+    x = "Day of Observation",
+    y = "Avg Co2 Emissions (percent of volume)",
+    colour = "Device Installed?") +
+  theme_light(base_size = 14)
+
+Bentley_Data <- carData |>
+  select(day, co2, car, dev) |>
+  mutate(dev = ifelse(dev > 0, "Yes", "No")) |>
+  filter(car == "Bentley") |>
+  group_by(day, dev) |>
+  summarise(Avg_emission = mean(co2, na.rm = TRUE))
+
+Bentley_Co2 <- ggplot(Bentley_Data, aes(x = day, y = Avg_emission, colour = dev, group = dev)) +
+  geom_line(size = 1.5) + 
+  geom_point(size = 3) +
+  scale_color_manual(values = c("Yes" = "green", "No" = "red")) +
+  labs(
+    title = "Average Bentley Co2 Emissions Over Time",
+    x = "Day of Observation",
+    y = "Avg Co2 Emissions (pct of volume)",
+    colour = "Device Installed?") +
+  theme_light(base_size = 14)
+
+grid.arrange(Yugo_Co, Bentley_Co, Yugo_Co2, Bentley_Co2, ncol = 2, nrow = 2)
 ```
 
 
