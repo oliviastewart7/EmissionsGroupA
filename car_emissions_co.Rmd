@@ -12,8 +12,9 @@ library(gridExtra)
 ```
 
 ```{r}
-# read in the dataset and remove NAs
-carData <- read.csv("~/Documents/GitHub/EmissionsGroupA/carData.csv")
+#| label: Reading in data
+
+carData <- read_csv("carData.csv")
 ```
 
 ```{r}
