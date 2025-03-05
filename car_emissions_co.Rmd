@@ -38,6 +38,7 @@ Yugo_Co <- ggplot(Yugo_emissions, aes(x = day, y = avg_emission, colour = dev, g
   geom_line(size = 1.5) + 
   geom_point(size = 3) + 
   scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) + 
+  scale_x_continuous(breaks = 1:13) +
   labs(
     title = "Fig 1: Average Yugo Co Emissions Over Time",
     x = "Day of Observation",
@@ -57,6 +58,7 @@ Bentley_Co <- ggplot(Bentley_emissions, aes(x = day, y = avg_emission, colour = 
   geom_line(size = 1.5) +
   geom_point(size = 3) +  
   scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) + 
+  scale_x_continuous(breaks = 1:13) +
   labs(
     title = "Fig 2: Average Bentley Co Emissions Over Time",
     x = "Day of Observation",
@@ -83,6 +85,7 @@ Yugo_Co2 <- ggplot(Yugo_Data, aes(x = day, y = avg_emission, colour = dev, group
   geom_line(size = 1.5) +  
   geom_point(size = 3) +
   scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) +
+  scale_x_continuous(breaks = 1:13) +
   labs(
     title = "Fig 3: Average Yugo Co2 Emissions Over Time",
     x = "Day of Observation",
@@ -101,6 +104,7 @@ Bentley_Co2 <- ggplot(Bentley_Data, aes(x = day, y = Avg_emission, colour = dev,
   geom_line(size = 1.5) + 
   geom_point(size = 3) +
   scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) +
+  scale_x_continuous(breaks = 1:13) +
   labs(
     title = "Fig 4: Average Bentley Co2 Emissions Over Time",
     x = "Day of Observation",
