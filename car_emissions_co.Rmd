@@ -23,23 +23,28 @@ carData <- read_csv("carData.csv")
 
 Yugo_emissions <- carData |>
   select(day, co, car, dev) |>
-  mutate(dev = ifelse(dev > 0, "Yes", "No")) |>
+  mutate(dev = ifelse(dev > 0, "Yes", "No"),
+         day = as.numeric(day)) |> 
   filter(car == "Yugo") |>
-  group_by(day, dev) |>
-  summarise(avg_emission = mean(co, na.rm = TRUE))
+  mutate(period = case_when(
+    day < 3 ~ "Before",
+    day >= 3 & day < 12 ~ "During",
+    day >= 12 ~ "After"
+  )) |>
+  group_by(day, dev, period) |>
+  summarise(avg_emission = mean(co, na.rm = TRUE), .groups = "drop")
 
-Yugo_Co <- ggplot(Yugo_emissions, aes(x = day, y = avg_emission, colour = dev, group = dev)) +
+Yugo_Co <- ggplot(Yugo_emissions, aes(x = day, y = avg_emission, colour = dev, group = interaction(dev, period))) +
   geom_line(size = 1.5) + 
   geom_point(size = 3) + 
   scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) + 
   labs(
-    title = "Average Yugo Co Emissions Over Time",
+    title = "Fig 1: Average Yugo Co Emissions Over Time",
     x = "Day of Observation",
     y = "Avg CO Emissions (pct of volume)",
     colour = "Device Installed?"
   ) +
-  theme_light(base_size = 14)  
-
+  theme_light(base_size = 14)
 
 Bentley_emissions <- carData |>
   select(day, co, car, dev) |>
@@ -53,7 +58,7 @@ Bentley_Co <- ggplot(Bentley_emissions, aes(x = day, y = avg_emission, colour = 
   geom_point(size = 3) +  
   scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) + 
   labs(
-    title = "Average Bentley Co Emissions Over Time",
+    title = "Fig 2: Average Bentley Co Emissions Over Time",
     x = "Day of Observation",
     y = "Avg CO Emissions (pct of volume)",
     colour = "Device Installed?"
@@ -63,17 +68,23 @@ Bentley_Co <- ggplot(Bentley_emissions, aes(x = day, y = avg_emission, colour = 
 #graphs for Co2 Emissions
 Yugo_Data <- carData |>
   select(day, co2, car, dev) |>
-  mutate(dev = ifelse(dev > 0, "Yes", "No")) |>
+   mutate(dev = ifelse(dev > 0, "Yes", "No"),
+         day = as.numeric(day)) |>
   filter(car == "Yugo") |>
-  group_by(day, dev) |>
-  summarise(Avg_emission = mean(co2, na.rm = TRUE))
+  mutate(period = case_when(
+    day < 3 ~ "Before",
+    day >= 3 & day < 12 ~ "During",
+    day >= 12 ~ "After"
+  )) |>
+  group_by(day, dev, period) |>
+  summarise(avg_emission = mean(co2, na.rm = TRUE), .groups = "drop")
 
-Yugo_Co2 <- ggplot(Yugo_Data, aes(x = day, y = Avg_emission, colour = dev, group = dev)) +
+Yugo_Co2 <- ggplot(Yugo_Data, aes(x = day, y = avg_emission, colour = dev, group = interaction(dev, period))) +
   geom_line(size = 1.5) +  
   geom_point(size = 3) +
   scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) +
   labs(
-    title = "Average Yugo Co2 Emissions Over Time",
+    title = "Fig 3: Average Yugo Co2 Emissions Over Time",
     x = "Day of Observation",
     y = "Avg Co2 Emissions (pct of volume)",
     colour = "Device Installed?") +
@@ -91,7 +102,7 @@ Bentley_Co2 <- ggplot(Bentley_Data, aes(x = day, y = Avg_emission, colour = dev,
   geom_point(size = 3) +
   scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) +
   labs(
-    title = "Average Bentley Co2 Emissions Over Time",
+    title = "Fig 4: Average Bentley Co2 Emissions Over Time",
     x = "Day of Observation",
     y = "Avg Co2 Emissions (pct of volume)",
     colour = "Device Installed?") +
