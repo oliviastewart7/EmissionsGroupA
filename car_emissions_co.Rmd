@@ -66,24 +66,12 @@ Yugo_Data <- carData |>
   mutate(dev = ifelse(dev > 0, "Yes", "No")) |>
   filter(car == "Yugo") |>
   group_by(day, dev) |>
-  summarise(Avg_emission = mean(co2, na.rm = TRUE)) |>
-   mutate(dev = case_when(
-    day < 3 ~ "Before",
-    day >= 3 & day < 12 ~ "During",
-    day >= 12 ~ "After"),
-    device_status = case_when(
-    dev == "Before" ~ "Device Not Installed",  # Label "Before" as "Device Not Installed"
-    dev == "During" ~ "Device Installed",     # Label "During" as "Device Installed"
-    dev == "After" ~ "Device Not Installed"    # Label "After" as "Device Not Installed"
-  ))
+  summarise(Avg_emission = mean(co2, na.rm = TRUE))
 
 Yugo_Co2 <- ggplot(Yugo_Data, aes(x = day, y = Avg_emission, colour = dev, group = dev)) +
   geom_line(size = 1.5) +  
   geom_point(size = 3) +
-  scale_color_manual(
-    values = c("Device Not Installed" = "orange", "Device Installed" = "blue"), # Colors for legend
-    labels = c("No", "Yes")
-  ) +
+  scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) +
   labs(
     title = "Average Yugo Co2 Emissions Over Time",
     x = "Day of Observation",
@@ -101,7 +89,6 @@ Bentley_Data <- carData |>
 Bentley_Co2 <- ggplot(Bentley_Data, aes(x = day, y = Avg_emission, colour = dev, group = dev)) +
   geom_line(size = 1.5) + 
   geom_point(size = 3) +
-  scale_x_continuous(breaks = seq(0,14, by = 2)) +
   scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) +
   labs(
     title = "Average Bentley Co2 Emissions Over Time",
