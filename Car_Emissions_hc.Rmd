@@ -31,14 +31,21 @@ Yugo_hc_emissions <- carData |>
   mutate(dev = case_when(
     day < 3 ~ "Before",
     day >= 3 & day < 12 ~ "During",
-    day >= 12 ~ "After"
+    day >= 12 ~ "After"),
+    device_status = case_when(
+    dev == "Before" ~ "Device Not Installed",  # Label "Before" as "Device Not Installed"
+    dev == "During" ~ "Device Installed",     # Label "During" as "Device Installed"
+    dev == "After" ~ "Device Not Installed"    # Label "After" as "Device Not Installed"
   ))
 
-
-Yugo_hc_plot <- ggplot(Yugo_hc_emissions, aes(x = day, y = avg_emission, colour = dev, group = dev)) +
+# Plot with "Before" and "After" as separate categories for the graph, but grouped for the legend
+Yugo_hc_plot <- ggplot(Yugo_hc_emissions, aes(x = day, y = avg_emission, colour = device_status, group = dev)) +
   geom_line(linewidth = 1.5) + 
   geom_point(size = 3) + 
-  scale_color_manual(values = c("Before" = "orange", "During" = "blue", "After" = "pink")) + 
+  scale_color_manual(
+    values = c("Device Not Installed" = "orange", "Device Installed" = "blue"), # Colors for legend
+    labels = c("No", "Yes")
+  ) + 
   labs(
     title = "Yugo Hydrocarbon Emissions Over Time",
     x = "Day of Observation",
