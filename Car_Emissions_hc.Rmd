@@ -27,12 +27,18 @@ Yugo_hc_emissions <- carData |>
   mutate(dev = ifelse(dev > 0, "Yes", "No")) |> #Ensuring that device is either T or F
   filter(car == "Yugo") |>
   group_by(dev, day) |> 
-  summarise(avg_emission = mean(hc, na.rm = TRUE))
+  summarise(avg_emission = mean(hc, na.rm = TRUE)) |>
+  mutate(dev = case_when(
+    day < 3 ~ "Before",
+    day >= 3 & day < 12 ~ "During",
+    day >= 12 ~ "After"
+  ))
+
 
 Yugo_hc_plot <- ggplot(Yugo_hc_emissions, aes(x = day, y = avg_emission, colour = dev, group = dev)) +
   geom_line(linewidth = 1.5) + 
   geom_point(size = 3) + 
-  scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) + 
+  scale_color_manual(values = c("Before" = "orange", "During" = "blue", "After" = "pink")) + 
   labs(
     title = "Yugo Hydrocarbon Emissions Over Time",
     x = "Day of Observation",
