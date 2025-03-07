@@ -1,7 +1,8 @@
 ---
-title: "car_emissions"
+title: "Car Emissions Summary"
+author: "Group-A: Olivia, Robyn, and Zach"
 format: pdf
-date: "2025-03-03"
+date: "2025-03-07"
 ---
 
 ```{r setup, include=FALSE}
@@ -11,14 +12,14 @@ library(ggplot2)
 library(gridExtra)
 ```
 
-```{r}
+```{r, echo=FALSE}
 #| label: Reading in data
 #| warning: False
 
 carData <- read_csv("carData.csv")
 ```
 
-```{r, fig.cap = Caption}
+```{r, fig.cap=Caption, fig.width=11, fig.height=6, echo=FALSE}
 #| message: false
 
 Yugo_emissions <- carData |>
@@ -40,7 +41,7 @@ Yugo_Co <- ggplot(Yugo_emissions, aes(x = day, y = avg_emission, colour = dev, g
   scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) + 
   scale_x_continuous(breaks = 1:13) +
   labs(
-    title = "Fig 1: Average Yugo Co Emissions Over Time",
+    title = "Fig 1: Average Yugo Co Emissions",
     x = "Day of Observation",
     y = "Avg CO Emissions (pct of volume)",
     colour = "Device Installed?"
@@ -60,7 +61,7 @@ Bentley_Co <- ggplot(Bentley_emissions, aes(x = day, y = avg_emission, colour = 
   scale_color_manual(values = c("Yes" = "orange", "No" = "blue")) + 
   scale_x_continuous(breaks = 1:13) +
   labs(
-    title = "Fig 2: Average Bentley Co Emissions Over Time",
+    title = "Fig 2: Average Bentley Co Emissions",
     x = "Day of Observation",
     y = "Avg CO Emissions (pct of volume)",
     colour = "Device Installed?"
@@ -88,7 +89,7 @@ Yugo_Co2 <- ggplot(Yugo_Data, aes(x = day, y = avg_emission, colour = dev, group
   scale_x_continuous(breaks = 1:13) +
    scale_y_continuous(limits = c(13,16)) +
   labs(
-    title = "Fig 3: Average Yugo Co2 Emissions Over Time",
+    title = "Fig 3: Average Yugo Co2 Emissions",
     x = "Day of Observation",
     y = "Avg Co2 Emissions (pct of volume)",
     colour = "Device Installed?") +
@@ -108,7 +109,7 @@ Bentley_Co2 <- ggplot(Bentley_Data, aes(x = day, y = Avg_emission, colour = dev,
   scale_x_continuous(breaks = 1:13) +
   scale_y_continuous(limits = c(13,16)) +
   labs(
-    title = "Fig 4: Average Bentley Co2 Emissions Over Time",
+    title = "Fig 4: Average Bentley Co2 Emissions",
     x = "Day of Observation",
     y = "Avg Co2 Emissions (pct of volume)",
     colour = "Device Installed?") +
@@ -116,7 +117,16 @@ Bentley_Co2 <- ggplot(Bentley_Data, aes(x = day, y = Avg_emission, colour = dev,
 
 grid.arrange(Yugo_Co, Bentley_Co, Yugo_Co2, Bentley_Co2, ncol = 2, nrow = 2)
 
-Caption <- ""
+Caption <- "Average carbon monoxide (CO) and carbon dioxide (CO2) emissions over time for Yugo and Bentley vehicles, with and without the installed device. Figures 1 and 2 show CO emissions, while Figures 3 and 4 show CO2 emissions. The manufacturer claims the device should reduce CO emissions to zero while increasing CO2 emissions. However, we cannot distinctly say that there is a clear downward trend in CO emissions or a consistent upward trend in CO2 emissions. Instead, emissions fluctuate over time, suggesting that the device does not have a consistent effect."
 ```
+
+## Summary 
+We examined the impact of an emissions control device on carbon monoxide (CO) and carbon dioxide (CO2) emissions in two vehicle, a Yugo limousine and a Bentley, over a 13-day observation period. The manufacturer claims that the device should eliminate CO emissions while increasing CO2 emissions. However, our findings do not show a clear pattern supporting this assertion. Instead of a steady decline in CO emissions and a corresponding rise in CO2 emissions, the data exhibit fluctuations over time. 
+
+We have four plots, the top left plot if Figure 1, the top right plot if Figure 2, the bottom left plot is Figure 3, and the bottom right plot is Figure 4. The two graphs on the top (Figures 1 and 2) show CO emissions for the Yugo and Bently, while the graphs on the bottom (Figures 3 and 4) show CO2 emissions for the Yugo and Bently. On the X-axis (horizontal line on bottom on graph) of each figure is day of observation, ranging from 1 to 13. On the Y-axis (vertical line on left side of graph) is average emission, either CO or CO2. Since there were multiple observations that happened on the same day, we took the average CO, or CO2, emission for each day. Additionally, on each figure is a legend indicating whether the device was installed on the car or not. Blue lines represent observations when the device was not installed, while orange represents observations when the device was installed. 
+
+For the Yugo, CO emissions vary across the study period, with no distinct downward trend. Although emissions decrease on certain days, they subsequently increase again, indicating inconsistency. Similarly, CO2 emissions do not show a steady increase, which would be expected if the device were effectively converting CO into CO2. The data for the Bentley follow a similar pattern, with CO emissions fluctuating rather than trending toward zero and CO2 emissions displaying variability rather than a steady increase. The presence of the device appears to influence emissions levels to some degree, but its effects are neither uniform nor predictable.
+
+These findings raise important questions about the device’s effectiveness. If the goal is to reduce CO emissions and increase CO2 emissions as expected, then the inconsistency observed suggests that the device does not function as intended under real-world conditions. Possible explanations for these results include variations in driving conditions, environmental factors, fuel quality, or even measurement inconsistencies. Further investigation is necessary to determine whether external influences are affecting emissions patterns or if the device itself is inherently unreliable. Additional research with controlled experimental conditions, a larger sample size, and longer observation periods would be beneficial to draw more definitive conclusions. Until then, the claims made by the manufacturer remain unsupported by the available data."
 
 
