@@ -9,11 +9,12 @@ This project analyzes carbon monoxide (CO) and carbon dioxide (CO₂) emissions 
 
 
 Project Goals
-1.     Determine whether the device is works as the manufacturer claims
+1.     Determine whether the device works as the manufacturer claims
 
 2.      Make conclusions about whether the device is effective
 
 Dataset
+The dataset in this project contained 220 observations on Yugo and Bently cars to see if a device lowered emissions as the manufactuer calimed. The data was collected by the manufactuer, and contained many different variables related to the day the observations were made, whether the device was used on the cars, and conditions that the cars were used in. 
 
 
 Materials in "EmissionsGroupA" Folder
